@@ -381,7 +381,7 @@ app.post('/login', async (req, res) => {
     const { email } = req.body;
   
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: 'http://localhost:5173/updatepassword' 
+      redirectTo: 'https://frontend-eta-beryl-71.vercel.app/updatepassword' 
     });
   
     if (error) return res.status(400).json({ error: error.message });
