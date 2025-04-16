@@ -7,8 +7,8 @@ app.use(express.json());
 
 const PORT = 3000;
 app.use(cors({
-    origin: 'http://localhost:5173', 
-    credentials: true
+    origin: '*', 
+    credentials: false
   }));
 
 const authenticate = (req, res, next) => {
