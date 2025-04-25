@@ -353,7 +353,7 @@ app.post('/signup', async (req, res) => {
 
     if (error) return res.status(400).json({ error: "ji" });
 
-    res.json({ user, message: "Signup successful! Please check your email to confirm your account." });
+    res.json({ details : user, message: "Signup successful! Please check your email to confirm your account." });
 });
 
 app.post('/login', async (req, res) => {
