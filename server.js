@@ -186,6 +186,16 @@ app.post('/pending/add', authenticate, async (req, res) => {
     if (error) return res.status(500).json({ error: error.message });
     res.json(data);
 });
+app.post('/wallet/add', authenticate, async (req, res) => {
+    const { user_id, balance } = req.body;
+    const { data, error } = await supabase
+        .from('user_wallets')
+        .insert([{ user_id, balance }])
+        .select();
+
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({message : "Added successfully"});
+});
 app.post('/pending/delete/:id', authenticate, async (req, res) => {
   const { id } = req.params;
   const { data, error } = await supabase
