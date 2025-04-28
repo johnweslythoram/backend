@@ -196,6 +196,29 @@ app.post('/wallet/add', authenticate, async (req, res) => {
     if (error) return res.status(500).json({ error: error.message });
     res.json({message : "Added successfully"});
 });
+app.post('/check-user_wallet', async (req, res) => {
+  const { user_id } = req.body;
+
+  try {
+      const { data, error } = await supabase
+      .from('user_wallets')
+      .select('*')
+      .eq('user_id', user_id)
+      .single();
+
+    if (error && error.code !== 'PGRST116') {
+      return res.status(500).json({ error: error.message });
+    }
+
+    if (!data) {
+      return res.json({ exists: false, message: 'User does not exist.' });
+    }
+
+    res.json({ exists: true, user: data });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 app.post('/pending/delete/:id', authenticate, async (req, res) => {
   const { id } = req.params;
   const { data, error } = await supabase
@@ -568,7 +591,29 @@ app.post('/login', async (req, res) => {
     }
   });
   
+  app.post('/check-user_wallet', async (req, res) => {
+    const { user_id } = req.body;
   
+    try {
+        const { data, error } = await supabase
+        .from('user_wallets')
+        .select('*')
+        .eq('user_id', user_id)
+        .single();
+  
+      if (error && error.code !== 'PGRST116') {
+        return res.status(500).json({ error: error.message });
+      }
+  
+      if (!data) {
+        return res.json({ exists: false, message: 'User does not exist.' });
+      }
+  
+      res.json({ exists: true, user: data });
+    } catch (err) {
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
 
   app.post('/wallet/update', async (req, res) => {
     const { userId, amount } = req.body;
